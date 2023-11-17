@@ -38,26 +38,27 @@ for i in range(1, 12):
         idProblem = elem.get_attribute("id")
         divSub = elem.find_element(By.CLASS_NAME, "name")
         nameProblem = divSub.find_element(By.TAG_NAME, "a").text
-        if idProblem not in Problems:
-            Problems[idProblem] = nameProblem
-            driver.get("http://laptrinhonline.club/src/" + str(idProblem) + "/raw")
-            dataCode = driver.find_element(By.TAG_NAME, "pre").text
-            driver.execute_script("window.history.go(-1)")
-            nameProblem = unidecode.unidecode(nameProblem)
-            tempName = ""
-            for x in nameProblem:
-                if (
-                    (x >= "a" and x <= "z")
-                    or (x >= "A" and x <= "Z")
-                    or (x >= "0" and x <= "9")
-                ):
-                    tempName += x
-            nameProblem = tempName
-            with open(
-                "./src/" + str(nameProblem) + ".cpp", "w", encoding="utf-8"
-            ) as file:
-                file.write(dataCode)
-            time.sleep(0.5)
+        Problems[idProblem] = nameProblem
+        
+for problem in Problems:
+    idProblem = problem
+    nameProblem = Problems[problem]
+    driver.get("http://laptrinhonline.club/src/" + str(idProblem) + "/raw")
+    dataCode = driver.find_element(By.TAG_NAME, "pre").text
+    driver.execute_script("window.history.go(-1)")
+    nameProblem = unidecode.unidecode(nameProblem)
+    tempName = ""
+    for x in nameProblem:
+        if (
+            (x >= "a" and x <= "z")
+            or (x >= "A" and x <= "Z")
+            or (x >= "0" and x <= "9")
+        ):
+            tempName += x
+    nameProblem = tempName
+    with open("./src/" + str(nameProblem) + ".cpp", "w", encoding="utf-8") as file:
+        file.write(dataCode)
+    time.sleep(0.5)
 
 print("Done")
 
