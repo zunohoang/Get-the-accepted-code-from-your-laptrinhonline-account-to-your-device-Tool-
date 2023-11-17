@@ -45,7 +45,6 @@ for problem in Problems:
     nameProblem = Problems[problem]
     driver.get("http://laptrinhonline.club/src/" + str(idProblem) + "/raw")
     dataCode = driver.find_element(By.TAG_NAME, "pre").text
-    driver.execute_script("window.history.go(-1)")
     nameProblem = unidecode.unidecode(nameProblem)
     tempName = ""
     for x in nameProblem:
