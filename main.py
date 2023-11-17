@@ -8,27 +8,31 @@ import time
 Problems = {}
 driver = webdriver.Chrome()
 
-Username = input("Username: ")
-Password = input("Password: ")
 
-driver.get(
-    "http://laptrinhonline.club/accounts/login/?next=/submissions/user/NGUYENVANHOANG_K64_SFIT/?status=AC"
-)
+driver.get("http://laptrinhonline.club/accounts/login/?next=/user")
 
-usernameElement = driver.find_element("id", "id_username")
-usernameElement.send_keys(Username)
-passwordElement = driver.find_element("id", "id_password")
-passwordElement.send_keys(Password)
-passwordElement.send_keys(Keys.RETURN)
+# Username = input("Username: ")
+# Password = input("Password: ")
 
-print("Runing...")
+# usernameElement = driver.find_element("id", "id_username")
+# usernameElement.send_keys(Username)
+# passwordElement = driver.find_element("id", "id_password")
+# passwordElement.send_keys(Password)
+# passwordElement.send_keys(Keys.RETURN)
+
+while 1:
+    if driver.current_url == "http://laptrinhonline.club/user":
+        break
+
+print("Login Success")
+
+user_sidebar = driver.find_element(By.CLASS_NAME, "user-sidebar")
+UsernameLink = user_sidebar.find_element(By.TAG_NAME, "a").get_attribute("href")
+
+print(UsernameLink)
 
 for i in range(1, 12):
-    driver.get(
-        "http://laptrinhonline.club/submissions/user/NGUYENVANHOANG_K64_SFIT/"
-        + str(i)
-        + "?status=AC"
-    )
+    driver.get(UsernameLink + str(i) + "?status=AC")
     elems = driver.find_elements(By.CLASS_NAME, "submission-row")
     for elem in elems:
         idProblem = elem.get_attribute("id")
@@ -39,15 +43,24 @@ for i in range(1, 12):
             driver.get("http://laptrinhonline.club/src/" + str(idProblem) + "/raw")
             dataCode = driver.find_element(By.TAG_NAME, "pre").text
             driver.execute_script("window.history.go(-1)")
-            for x in [" ", ":", "?", "/", "*", "<", ">", "|", '"', "."]:
-                nameProblem = nameProblem.replace(x, "_")
-            nameProblemFile = unidecode.unidecode(nameProblem)
-            # print("./src/" + str(nameProblemFile) + ".cpp")
+            nameProblem = unidecode.unidecode(nameProblem)
+            tempName = ""
+            for x in nameProblem:
+                if (
+                    (x >= "a" and x <= "z")
+                    or (x >= "A" and x <= "Z")
+                    or (x >= "0" and x <= "9")
+                ):
+                    tempName += x
+            nameProblem = tempName
             with open(
-                "./src/" + str(nameProblemFile) + ".cpp", "w", encoding="utf-8"
+                "./src/" + str(nameProblem) + ".cpp", "w", encoding="utf-8"
             ) as file:
                 file.write(dataCode)
+            time.sleep(0.5)
 
 print("Done")
+
+time.sleep(5)
 
 driver.quit()
