@@ -22,7 +22,8 @@
 
     - Sau đó của sổ Chrome tự mở lên rồi _**đăng nhập**_ vào như ảnh:
        
-         **![image](https://github.com/zunohoang/Get-**the-accepted-code-from-your-laptrinhonline-account-to-your-device-Tool-/assets/88831612/8ecfbee4-4057-4756-bd3d-59d3bc50e785)
+         ![image](https://github.com/zunohoang/Get-the-accepted-code-from-your-laptrinhonline-account-to-your-device-Tool-/assets/88831612/480d8b47-8a5d-4621-9030-3fc71d43e98b)
+
 
     - Sau đó chương trình sẽ tư động chạy và code của bạn sẽ được lưu vào folder _**./src**_
 4. Đến khi cửa số Chrome đóng và Terminal hiện lên _**Done**_ 
